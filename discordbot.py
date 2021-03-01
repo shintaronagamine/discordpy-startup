@@ -3,6 +3,7 @@ import os
 import traceback
 
 bot = commands.Bot(command_prefix='/')
+client = discord.Client()
 token = os.environ['DISCORD_BOT_TOKEN']
 
 
@@ -13,13 +14,13 @@ async def on_command_error(ctx, error):
     await ctx.send(error_msg)
 
 # 起動時に動作する処理
-@bot.event
+@client.event
 async def on_ready():
     # 起動したらターミナルにログイン通知が表示される
     print('ログインしました')
 
 # メッセージ受信時に動作する処理
-@bot.event
+@client.event
 async def on_message(message):
     # メッセージ送信者がBotだった場合は無視する
     if message.author.bot:
@@ -28,12 +29,15 @@ async def on_message(message):
     if message.content == '/neko':
         await message.channel.send('にゃーん')
 
-@bot.event
+@client.event
 async def on_voice_state_update(member, before, after):
     alert_channel = client.get_channel(785246159978364938)
     if before.channel is None: 
         msg = f'{member.name} が入室しました。'
         await alert_channel.send(msg)
+    # elif after.channel is None: 
+    #     msg = f'{member.name} が退室しました。'
+    #     await alert_channel.send(msg)
 
 
 bot.run(token)
