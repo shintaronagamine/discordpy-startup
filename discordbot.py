@@ -1,6 +1,7 @@
 from discord.ext import commands
 import os
 import traceback
+import random
 
 bot = commands.Bot(command_prefix='/')
 client = discord.Client()
@@ -22,12 +23,19 @@ async def on_ready():
 # メッセージ受信時に動作する処理
 @client.event
 async def on_message(message):
+    meigen = {
+        0: "ごめんなさいね～",
+        1: "赤ちゃんだからね",
+        2: "はいはいそうだね",
+        3: "67さんの負け～",
+        4: "人狼かっ!?",
+    }
     # メッセージ送信者がBotだった場合は無視する
     if message.author.bot:
         return
     # 「/neko」と発言したら「にゃーん」が返る処理
-    if message.content == '/neko':
-        await message.channel.send('にゃーん')
+    if message.content == '/maryo':
+        await message.channel.send(meigen[random.randrange(5)])
 
 @client.event
 async def on_voice_state_update(member, before, after):
