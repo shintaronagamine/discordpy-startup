@@ -35,6 +35,7 @@ async def on_message(message):
         return
     
     if message.content == '/maryo':
+        await message.channel.send("test")
         await message.channel.send(f"{random.randrange(5)}"])
 
 @client.event
